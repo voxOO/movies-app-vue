@@ -1,9 +1,9 @@
 <template>
-    <div>
-       <ul v-for="movie in movies" :key="movie.id">
-           <li>
+    <div class="container">
+       <div v-for="movie in movies" :key="movie.id">
+           <h2>
                {{ movie.title }}
-           </li>
+           </h2>
            <p> 
                {{ movie.director}}
            </p>
@@ -16,23 +16,26 @@
            <p>
                {{ movie.genre }}
            </p>
-       </ul>
+       </div>
     </div>
 </template>
 
 <script>
-import MovieService from '../services/movies';
+import { movieService } from '../services/movies';
 
 export default {
     data() {
         return {
-            movies: []
+            movies: [],
         }
     },
-    beforeRouteEnter() {
-        movieService.getAll()
-        .then( response => {
-            this.movies= response.data;
+    beforeRouteEnter(to,from,next) {
+        next( vm => {
+             movieService.getAll().then( response => {
+            //console.log(vm.proba)
+            vm.movies= response.data;
+            //console.log('PROBA1')
+        })
         })
     }
 }
