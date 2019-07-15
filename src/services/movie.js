@@ -5,5 +5,7 @@ export default class MoovieService {
         axios.base.baseURL = 'http://localhost:3000/api'
     }
 
-    
+
 }
+
+export const movieService= new MovieService()

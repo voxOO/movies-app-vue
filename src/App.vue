@@ -6,7 +6,7 @@
         <a class="navbar-brand" href="#">Movies-app</a>
       </div>
       <ul class="nav navbar-nav">
-        <router-link to="/movies">Movies</router-link>
+        <router-link to="/movies" class="btn btn-primary">Movies</router-link>
         
       </ul>
     </div>
