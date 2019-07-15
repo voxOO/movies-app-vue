@@ -1,11 +1,18 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+ <div>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Movies-app</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <router-link to="/movies">Movies</router-link>
+        
+      </ul>
     </div>
-    <router-view/>
-  </div>
+</nav>
+<router-view/>
+</div>
 </template>
 
 <style>
@@ -15,6 +22,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
