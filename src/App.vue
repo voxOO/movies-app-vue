@@ -7,7 +7,6 @@
       </div>
       <ul class="nav navbar-nav">
         <router-link to="/movies" class="btn btn-primary">Movies</router-link>
-        
       </ul>
     </div>
 </nav>
