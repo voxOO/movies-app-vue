@@ -2,7 +2,10 @@
     <div class="container">
        <MovieSearch @searchTermUpdated="setSearchTerm"></MovieSearch>
        <hr>
-       <MovieRow v-for="movie in movies" :key="movie.id" :movie="movie" :term='term'></MovieRow>
+       <div v-for="(movie , index) in filterMovies" :key=index >
+       <MovieRow :movie="movie"></MovieRow>
+       </div>
+       <div v-if="filterMovies.length===0">There are no movies with that name</div>
     </div>
 </template>
 
@@ -32,6 +35,13 @@ export default {
     methods: {
         setSearchTerm(term) {
             this.term = term;
+        }
+    },
+    computed: {
+        filterMovies() {
+            return this.movies.filter(item => {
+                return item.title.toLowerCase().includes(this.term.toLowerCase())
+            })
         }
     }
 }
