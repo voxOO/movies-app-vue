@@ -36,22 +36,17 @@ export default {
             selected: ''
         }
     },
-    props: ['movie','selectData'],
+    props: ['movie','movieSelected'],
     computed: { 
         checkboxValue () {
     
      }
     },
     methods: {
-        // emitChangeSelect () {
-        //     this.$emit('MovieSelected',this.$refs.checkbox.checked, this.movie.id)
-        // },
         emitChangeSelect() {
-
             this.$refs.buttonSelectMovie.style.background= 'red'
             this.$emit('MovieSelected', this.movie.id)
-            
-            //console.log(this.movie.id)
+            //console.log(this.movieSelected)
         }
     },
 }

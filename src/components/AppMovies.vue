@@ -6,7 +6,7 @@
        <button class="btn btn-secondary" @click="selectAll">Select All</button>
        <button class="btn btn-secondary" @click="deselectAll">Deselect All</button>
        <div v-for="(movie , index) in filterMovies" :key=index >
-       <MovieRow :movie="movie" @MovieSelected='selectList'></MovieRow>
+       <MovieRow :movie="movie" :movieSelected="movieSelected" @MovieSelected='selectList'></MovieRow>
        </div>
        <hr>
        <div v-if="filterMovies.length===0">There are no movies with that name</div>
@@ -42,17 +42,14 @@ export default {
             this.term = term;
         },
         selectAll() {
-           this.movies.forEach( movie => {
-               movie.selected = true
-               console.log(this.movies)
-           })
+           this.movieSelected = this.movies
         },
         deselectAll() {
-
+            this.movieSelected= []
         },
         selectList(movieId) {
            if (!this.movieSelected.includes(movieId)) {
-           this.movieSelected.push(movieId);
+           this.movieSelected.push(movieId)
            console.log(this.movieSelected)
            }
         }
@@ -69,7 +66,7 @@ export default {
 </script>
 
 <style>
-    button {
+    .btn {
         margin-right:10px
     }
 </style>
