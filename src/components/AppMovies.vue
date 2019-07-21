@@ -2,11 +2,22 @@
     <div class="container">
        <MovieSearch @searchTermUpdated="setSearchTerm"></MovieSearch>
        <hr>
-       <p>Number of selected movies: {{ movieSelected.length }}</p>
+       <p>Number of selected movies: {{ selectedList.length }}</p>
        <button class="btn btn-secondary" @click="selectAll">Select All</button>
        <button class="btn btn-secondary" @click="deselectAll">Deselect All</button>
+       <br><br>
+       <div>
+           <h4>Sort Movies by:</h4>
+           <button @click="selectCategory('NameAsc')" ref="NameAsc" class="btn btn-secondary">Name asc</button>
+           <button @click="selectCategory('NameDesc')" ref="NameDesc" class="btn btn-secondary">Name desc</button>
+           <button @click="selectCategory('DurationAsc')" class="btn btn-secondary">Durations asc</button>
+           <button @click="selectCategory('DurationDesc')" class="btn btn-secondary">Duration desc</button>
+       </div>
        <div v-for="(movie , index) in filterMovies" :key=index >
-       <MovieRow :movie="movie" :movieSelected="movieSelected" @MovieSelected='selectList'></MovieRow>
+       <MovieRow :movie="movie" 
+                 :movieSelected = "movieSelected" 
+                 @oneMovieSelect='selectedListfunction'>
+       </MovieRow>
        </div>
        <hr>
        <div v-if="filterMovies.length===0">There are no movies with that name</div>
@@ -23,7 +34,8 @@ export default {
         return {
             movies: [],
             term: '',
-            movieSelected: []
+            movieSelected: [],
+            selectedList: []
         }
     },
     beforeRouteEnter(to,from,next) {
@@ -42,16 +54,39 @@ export default {
             this.term = term;
         },
         selectAll() {
-           this.movieSelected = this.movies
+            if (this.movieSelected.length < this.movies.length) {
+           this.movies.forEach(movie => {
+               this.movieSelected.push(movie.id);
+           });
+          }
+           //console.log('Filmovi:',this.movies)
+           //console.log("Selektovana lista:",this.movieSelected);
         },
         deselectAll() {
             this.movieSelected= []
         },
-        selectList(movieId) {
-           if (!this.movieSelected.includes(movieId)) {
-           this.movieSelected.push(movieId)
-           console.log(this.movieSelected)
+        selectedListfunction(movieId) {
+           if (!this.selectedList.includes(movieId)) {
+           this.selectedList.push(movieId)
+           //console.log(this.selectedList)
            }
+        },
+        selectCategory(sortBy) {
+            switch (sortBy) {
+                case 'NameAsc':
+                    this.movies.sort((a, b) => (a.title > b.title) ? 1 : -1)
+                break;
+                case 'NameDesc':
+                    this.movies.sort((a,b) => (a.title < b.title) ? 1: -1)
+                break;
+                case 'DurationAsc':
+                    this.movies.sort((a,b) => (a.duration > b.duration) ? 1: -1)                    
+                break;
+                case 'DurationDesc':
+                    this.movies.sort((a,b) => (a.duration < b.duration) ? 1: -1)                    
+                break;
+                default:
+            }
         }
     },
     computed: {

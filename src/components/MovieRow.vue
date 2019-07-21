@@ -24,7 +24,7 @@
            </li>
        </ul>
       <button @click="emitChangeSelect()" class="btn btn-success" ref="buttonSelectMovie">Select Movie</button>
-       <hr>
+      <hr>
     </div>
 </template>
 
@@ -37,17 +37,12 @@ export default {
         }
     },
     props: ['movie','movieSelected'],
-    computed: { 
-        checkboxValue () {
-    
-     }
-    },
     methods: {
         emitChangeSelect() {
             this.$refs.buttonSelectMovie.style.background= 'red'
-            this.$emit('MovieSelected', this.movie.id)
+            this.$emit('oneMovieSelect', this.movie.id)
             //console.log(this.movieSelected)
-        }
+        },
     },
 }
 </script>
