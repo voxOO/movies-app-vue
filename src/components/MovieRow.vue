@@ -1,6 +1,9 @@
 <template>
     <div>
         <ul class="list-unstyled">
+            <li>
+                {{ movie.id }}
+            </li>
            <li>
                <h3>{{ movie.title }}</h3>
            </li>
@@ -16,9 +19,11 @@
            <li>
                {{ movie.genre }}
            </li>
+           <li>
+               {{ movie.selected }}
+           </li>
        </ul>
-       <input type="checkbox" ref="checkbox">
-       <button @click="proba()">PROBA</button>
+      <button @click="emitChangeSelect()" class="btn btn-success" ref="buttonSelectMovie">Select Movie</button>
        <hr>
     </div>
 </template>
@@ -31,25 +36,27 @@ export default {
             selected: ''
         }
     },
-    props: ['movie','term'],
+    props: ['movie','selectData'],
     computed: { 
         checkboxValue () {
-        // this.checkValue = true;
-        // console.log(checkValue);
-        //this.emit
-
+    
      }
     },
     methods: {
-        proba () {
-            console.log(this.$refs.checkbox.checked)
-            this.$emit('but-selected')
-            return this.selected
+        // emitChangeSelect () {
+        //     this.$emit('MovieSelected',this.$refs.checkbox.checked, this.movie.id)
+        // },
+        emitChangeSelect() {
+
+            this.$refs.buttonSelectMovie.style.background= 'red'
+            this.$emit('MovieSelected', this.movie.id)
+            
+            //console.log(this.movie.id)
         }
-    }
+    },
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
