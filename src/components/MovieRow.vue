@@ -1,31 +1,20 @@
 <template>
-    <div>
-        <ul class="list-unstyled">
-            <li>
-                {{ movie.id }}
-            </li>
-           <li>
-               <h3>{{ movie.title }}</h3>
-           </li>
-           <li> 
-               {{ movie.director}}
-           </li>
-           <li>
-               {{ movie.duration }} min
-           </li>
-           <li>
-               {{ movie.releaseDate }}
-           </li>
-           <li>
-               {{ movie.genre }}
-           </li>
-           <li>
-               {{ movie.selected }}
-           </li>
-       </ul>
-      <button @click="emitChangeSelect()" class="btn btn-success" ref="buttonSelectMovie">Select Movie</button>
-      <hr>
-    </div>
+    <tr ref="trstyle" :class="selectClass">
+        <td v-text="movie.id"></td>
+        <td v-text="movie.title"></td>
+        <td v-text="movie.director"></td>
+        <td v-text="movie.duration"></td>
+        <td v-text="movie.releaseDate"></td>
+        <td v-text="movie.genre"></td>
+        <td>
+            <button @click="emitChangeSelect(),
+                            selected = !selected"
+                    class="btn btn-success"
+                    ref="buttonSelectMovie">
+                    Select Movie
+            </button>             
+        </td>
+    </tr>
 </template>
 
 <script>
@@ -33,20 +22,40 @@
 export default {
     data () {
         return {
-            selected: ''
+            selected: true,
+            proba: 'Vrednost probe'
         }
     },
-    props: ['movie','movieSelected'],
+     props: ['movie', 'selectRow'],
+    computed: {
+        selectClass () {
+            if (this.selectRow) {
+                return "highlighted"
+            }
+            return "white"
+        }
+    },
     methods: {
         emitChangeSelect() {
-            this.$refs.buttonSelectMovie.style.background= 'red'
-            this.$emit('oneMovieSelect', this.movie.id)
-            //console.log(this.movieSelected)
+            if(this.selected) {
+                this.$refs.trstyle.className = "highlighted"
+            } else {
+                this.$refs.trstyle.className = "white"
+            }
+            this.$emit('oneMovieSelect', this.movie.id, this.selected)
         },
     },
 }
 </script>
 
 <style scoped>
-
+    .highlighted {
+        background-color: #ada289;
+    }
+    .white {
+        background-color: white;
+    }
+    td {
+        vertical-align: center;
+    }
 </style>

@@ -13,12 +13,21 @@
            <button @click="selectCategory('DurationAsc')" class="btn btn-secondary">Durations asc</button>
            <button @click="selectCategory('DurationDesc')" class="btn btn-secondary">Duration desc</button>
        </div>
-       <div v-for="(movie , index) in filterMovies" :key=index >
-       <MovieRow :movie="movie" 
-                 :movieSelected = "movieSelected" 
-                 @oneMovieSelect='selectedListfunction'>
-       </MovieRow>
-       </div>
+       <br>
+       <b-pagination 
+                    size="md"
+                    total-rows=3
+                    per-page=3>
+        </b-pagination>
+
+            <table class="table">
+            <tr is="MovieRow"
+                v-for="(movie , index) in filterMovies" :key=index 
+                :movie="movie" 
+                :selectRow='selectRow'
+                @oneMovieSelect='selectedListfunction'>
+            </tr>
+            </table>
        <hr>
        <div v-if="filterMovies.length===0">There are no movies with that name</div>
     </div>
@@ -34,7 +43,7 @@ export default {
         return {
             movies: [],
             term: '',
-            movieSelected: [],
+            selectRow: false,
             selectedList: []
         }
     },
@@ -54,22 +63,32 @@ export default {
             this.term = term;
         },
         selectAll() {
-            if (this.movieSelected.length < this.movies.length) {
-           this.movies.forEach(movie => {
-               this.movieSelected.push(movie.id);
-           });
-          }
-           //console.log('Filmovi:',this.movies)
-           //console.log("Selektovana lista:",this.movieSelected);
+            if(this.selectedList.length < this.movies.length) {
+            this.movies.forEach(movie => {
+                this.selectedList.push(movie)
+            })
+            }
+            this.selectRow = true;
+            //console.log(this.selectRow)
         },
         deselectAll() {
-            this.movieSelected= []
+            this.selectedList = []            
+            this.selectRow = false
+            //console.log(this.selectRow)
         },
-        selectedListfunction(movieId) {
-           if (!this.selectedList.includes(movieId)) {
-           this.selectedList.push(movieId)
-           //console.log(this.selectedList)
-           }
+        selectedListfunction(movieId,listAddDelete) {
+
+           if (listAddDelete && !this.selectedList.includes(movieId)) {
+               this.selectedList.push(movieId)
+               //console.log('AppMovieAdd:', this.selectedList)
+           } else {
+               for ( var i=0; i< this.selectedList.length; i++) {
+                   if (this.selectedList[i] === movieId ) {
+                       this.selectedList.splice(i,1)
+                       //console.log('AppMovieDelete:', this.selectedList)
+                   }
+               }
+           } 
         },
         selectCategory(sortBy) {
             switch (sortBy) {
@@ -87,6 +106,9 @@ export default {
                 break;
                 default:
             }
+        },
+        functionName () {
+
         }
     },
     computed: {
@@ -104,6 +126,11 @@ export default {
     .btn {
         margin-right:10px
     }
+
+    table {
+        width: 100%;
+    }
+    
 </style>
 
  
